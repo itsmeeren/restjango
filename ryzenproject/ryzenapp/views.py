@@ -1,3 +1,5 @@
+import io
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.views import APIView
@@ -7,7 +9,15 @@ from .models import Data
 from .serializers import DataSerializers
 
 from rest_framework.renderers import JSONRenderer
-# Create your views here.
+from rest_framework.parsers import JSONParser
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
+
+def my_view(request):
+    # Your view logic here
+    return HttpResponse("This view is exempt from CSRF protection.")
+
 
 class Datalist(APIView):
     def get(self,request):
@@ -39,3 +49,36 @@ def name_detail(request,x):
 def homepage(request):
     return HttpResponse("Welcome , \n/Datas -> all data\n"
                         "\nDatas/no -> for perticular data")
+
+
+
+
+
+
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
+from rest_framework.renderers import JSONRenderer  # Import JSONRenderer
+from .serializers import DataSerializers
+import io
+
+@api_view(['POST'])
+@csrf_exempt
+def data_create(request):
+    if request.method == "POST":
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        python_data = JSONParser().parse(stream)
+
+        serializer = DataSerializers(data=python_data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"res": "saved!"}, content_type="application/json", renderer_classes=[JSONRenderer])
+        return Response(serializer.errors, status=400, content_type="application/json", renderer_classes=[JSONRenderer])
+
+    return Response({"res": "Invalid request method"}, status=405, content_type="application/json", renderer_classes=[JSONRenderer])
+
+
+    return Response({"res": "Invalid request method"}, status=405)

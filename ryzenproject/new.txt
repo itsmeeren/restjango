@@ -1,1 +1,16 @@
 hehe
+import requests
+import json
+
+URL=''
+data={
+    'first_name':"kar",
+    "last_name":'mn',
+    "roll_number":5
+
+
+}
+json_data=json.dumps(data)
+r=requests.post(url=URL,data=json_data)
+data=r.json
+print(data)

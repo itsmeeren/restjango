@@ -9,6 +9,8 @@ class DataSerializers(serializers.ModelSerializer):
     class Meta:
         model=Data
         fields='__all__'
+    def create(self, validated_data):
+        return Data.objects.create(**validated_data)
 
 
 

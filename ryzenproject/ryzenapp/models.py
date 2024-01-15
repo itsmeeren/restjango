@@ -1,5 +1,5 @@
 from django.db import models
-
+# from .serializers import DataSerializers
 # Create your models here.
 
 class Data(models.Model):

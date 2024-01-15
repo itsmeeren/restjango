@@ -7,6 +7,6 @@ urlpatterns = [
     path('', views.homepage,name='Home'),
     path('Datas/', views.Datalist.as_view()),
     path('Datas/<int:x>', views.name_detail),
-
+    path('datacreate/', views.data_create),
 
 ]
