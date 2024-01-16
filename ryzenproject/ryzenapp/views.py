@@ -1,4 +1,5 @@
 import io
+import json
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -6,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from .models import Data
-from .serializers import DataSerializers
+from .serializers import DataSerializer
 
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
@@ -26,7 +27,7 @@ class Datalist(APIView):
         return Response(serializer.data)
         # json_data=JSONRenderer().render(serializer.data)
         # return HttpResponse(json_data,content_type='application/json')
-#     # this above method is teh another rendering directly from the json renderer of rest
+#     # this above method is the another rendering directly from the json renderer of rest
 #     # which actually renders all the data in the single line and which can be seen in a single
 #     # line
 #     # for that i have to import the json renderer for that to work
@@ -55,30 +56,49 @@ def homepage(request):
 
 
 
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
-from rest_framework.renderers import JSONRenderer  # Import JSONRenderer
-from .serializers import DataSerializers
-import io
 
-@api_view(['POST'])
-@csrf_exempt
+
+# This method is used to add the data from the client to the data base
+@csrf_exempt# csrf token is exempted beacuse it dont have html to access the csrf token
+
 def data_create(request):
+    if request.method=="POST":
+        json_data=request.body
+        stream=io.BytesIO(json_data)
+        python_data=JSONParser().parse(stream)
+        serializer=DataSerializer(data=python_data)
+        if serializer.is_valid():
+            serializer.save()
+            # message={"res":"saved!"}
+            # json_data=JSONRenderer().render(message)
+            return HttpResponse(json_data,content_type="application/json")
+        return HttpResponse(json_data, content_type="application/json")
+
+
+
+# for giving the data for the clint using id function
+
+def give_data(request):
     if request.method == "POST":
         json_data = request.body
         stream = io.BytesIO(json_data)
         python_data = JSONParser().parse(stream)
+        id=python_data.get('id',None)
+        if id is not None:
+            stu=Data.objects.get(id=id)
+            serializer=DataSerializer(stu)
+            json_data = JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data,content_type="application/json")
+    stu=Data.objects.all()
+    serializer=DataSerializer(stu,many=True)
 
-        serializer = DataSerializers(data=python_data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"res": "saved!"}, content_type="application/json", renderer_classes=[JSONRenderer])
-        return Response(serializer.errors, status=400, content_type="application/json", renderer_classes=[JSONRenderer])
-
-    return Response({"res": "Invalid request method"}, status=405, content_type="application/json", renderer_classes=[JSONRenderer])
 
 
-    return Response({"res": "Invalid request method"}, status=405)
+
+
+
+
+
+
+
+

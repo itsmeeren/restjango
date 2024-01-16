@@ -25,3 +25,19 @@ json_data=json.dumps(data)
 r=requests.post(url=URL,data=json_data)
 data=r.json
 print(data)
+
+
+# for creating database and updating the content
+
+
+def get_data(id=None):
+    data1={}
+    if id is not None:
+        data1={'id':id}
+    json1=json.dumps(data1)
+    r=requests.post(url=URL,data=json1)# use new url dont use the url above mentioned
+    data2=r.json()
+    print(data2)
+
+
+
