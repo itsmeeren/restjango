@@ -39,5 +39,3 @@ def get_data(id=None):
     data2=r.json()
     print(data2)
 
-
-

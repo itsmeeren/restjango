@@ -41,7 +41,7 @@ class Datalist(APIView):
 
 
 
-def name_detail(request,x):
+def name_detail(request,x):# x is used as id of the data user wants to get
     Data1 = Data.objects.get(id=x)
     serializer = DataSerializers(Data1)
     # return Response(serializer.data)
@@ -91,6 +91,8 @@ def give_data(request):
         return HttpResponse(json_data,content_type="application/json")
     stu=Data.objects.all()
     serializer=DataSerializer(stu,many=True)
+    json_data = JSONRenderer().render(serializer.data)
+    return HttpResponse(json_data,content_type="application/json")
 
 
 
