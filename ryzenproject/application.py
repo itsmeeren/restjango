@@ -26,7 +26,7 @@ r=requests.post(url=URL,data=json_data)
 data=r.json
 print(data)
 
-
+u
 # for creating database and updating the content
 
 
@@ -39,3 +39,22 @@ def get_data(id=None):
     data2=r.json()
     print(data2)
 
+# this is for updating the database
+
+import requests
+import json
+
+
+URL='http://127.0.0.1:8080/datacreate/'
+data={
+    'id':2 ,# we have send in the id of the database to get updated
+    'first_name':"kar",
+    "last_name":'mn',
+    "roll_number":5
+
+
+}
+json_data=json.dumps(data)
+r=requests.post(url=URL,data=json_data)
+data=r.json
+print(data)

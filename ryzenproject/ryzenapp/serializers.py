@@ -21,3 +21,9 @@ class DataSerializer(serializers.Serializer):
 
     def create(self, validate_data):
         return Data.objects.create(**validate_data)
+    def update(self, instance, validated_data):
+        instance.first_name=validated_data.get('first_name',instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.roll_number = validated_data.get('roll_number', instance.roll_number)
+        instance.save()
+        return instance
