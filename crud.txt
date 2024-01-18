@@ -1,0 +1,85 @@
+CRUD API Views
+
+
+
+
+  → def update(self, instance, validated_data): instance is already stored data and validated data is the data which is retrived from the user through forms or requests or frontend
+
+
+→actually we are accessing the the data through serializers ,,we can modify the same data no of times but in normal data retrieval we cannot do that just have to add the query but here its not like that.
+
+→ if the complete data is required we can use normal serializer for the data other wise including
+partial =TRUE makes partial retrieval of the data to be usable when all of the data is not required .
+
+→Deserialization
+  → for post method for accepting the data from user
+def data_create(request):
+    if request.method=="POST":
+        json_data=request.body
+        stream=io.BytesIO(json_data)
+        python_data=JSONParser().parse(stream)
+        serializer=DataSerializer(data=python_data)
+        if serializer.is_valid():
+            serializer.save()
+            # message={"res":"saved!"}
+            # json_data=JSONRenderer().render(message)
+            return HttpResponse(json_data,content_type="application/json")
+        return HttpResponse(json_data, content_type="application/json")
+
+→ For sending request to get data from the server(User side)
+
+import requests
+import json
+
+
+URL='http://127.0.0.1:8080/datacreate/'
+data={
+    'first_name':"kar",
+    "last_name":'mn',
+    "roll_number":5
+
+
+}
+json_data=json.dumps(data)
+r=requests.post(url=URL,data=json_data)
+data=r.json
+print(data)
+
+→For giving the data to the user same method is used
+
+
+def give_data(request):
+    if request.method == "POST":
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        python_data = JSONParser().parse(stream)
+        id=python_data.get('id',None)
+        if id is not None:
+            stu=Data.objects.get(id=id)
+            serializer=DataSerializer(stu)
+            json_data = JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data,content_type="application/json")
+    stu=Data.objects.all()
+    serializer=DataSerializer(stu,many=True)
+    json_data = JSONRenderer().render(serializer.data)
+    return HttpResponse(json_data,content_type="application/json")
+
+
+
+
+
+
+
+
+→ if I want to save the data from sent from the user follow the methods
+
+	→request from body → json_data = request.body
+	→ convert it into io.bytesIo → stream=io.BytesIO(json_data)
+	→python data =JSONParser().parse(pythondata)
+	→ serializer=DataSerializer(data=pythondata)
+	→ check for the validated data
+		→ if serializer.is_valid()
+			serializer.save()
+follow this method and write a view for this function to add the data from the user to the existing  data base
+
+for updating the database we have to include update function in the serializer
