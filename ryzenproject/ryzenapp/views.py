@@ -96,6 +96,20 @@ def give_data(request):
 
 
 
+def update_data():
+   if request.method=="PUT":
+       json_data=request.body
+       stream=io.BytesIO(json_data)
+       python_data=JSONParser().parse(stream)
+       stu=Data.objects.get(id="id")
+       serializer=DataSerializer(stu,data=python_data,partial=True)
+       if serializer.is_valid():
+           serializer.save()
+           return HttpResponse(json_data,content_type="application/json")
+   return HttpResponse(json_data, content_type="application/json")
+
+def delete_data():
+    pass
 
 
 

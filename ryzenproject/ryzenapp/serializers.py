@@ -27,3 +27,6 @@ class DataSerializer(serializers.Serializer):
         instance.roll_number = validated_data.get('roll_number', instance.roll_number)
         instance.save()
         return instance
+    def __delete__(self, instance):
+
+

@@ -44,17 +44,24 @@ def get_data(id=None):
 import requests
 import json
 
+def update_data():
+    URL = 'http://127.0.0.1:8080/datacreate/'
+    data = {
+        'id': 2,  # we have send in the id of the database to get updated
+        'first_name': "kar",
+        "last_name": 'mn',
+        "roll_number": 5
 
-URL='http://127.0.0.1:8080/datacreate/'
-data={
-    'id':2 ,# we have send in the id of the database to get updated
-    'first_name':"kar",
-    "last_name":'mn',
-    "roll_number":5
+    }
+    json_data = json.dumps(data)
+    r = requests.post(url=URL, data=json_data)
+    data = r.json
+    print(data)
+def delete_data():
+    URL = 'http://127.0.0.1:8080/datacreate/'
+    data = {'id': 2}# for deletion just mention the id in  data field
+    json_data = json.dumps(data)
+    r = requests.post(url=URL, data=json_data)
+    data = r.json
+    print(data)
 
-
-}
-json_data=json.dumps(data)
-r=requests.post(url=URL,data=json_data)
-data=r.json
-print(data)
