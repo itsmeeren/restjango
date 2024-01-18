@@ -101,7 +101,8 @@ def update_data():
        json_data=request.body
        stream=io.BytesIO(json_data)
        python_data=JSONParser().parse(stream)
-       stu=Data.objects.get(id="id")
+       id=python_data.get("id")
+       stu=Data.objects.get(id=id)
        serializer=DataSerializer(stu,data=python_data,partial=True)
        if serializer.is_valid():
            serializer.save()
@@ -109,7 +110,18 @@ def update_data():
    return HttpResponse(json_data, content_type="application/json")
 
 def delete_data():
-    pass
+    if request.method=="DELETE":
+        json_data=request.body
+        stream=io.BytesIO(json_data)
+        python_data=JSONParser().parse(stream)
+        id = python_data.get("id")
+        stu=Data.objects.get(id=id)
+        stu.delete()# jusst for the deletion of the instance
+    return HttpResponse(json_data,content_type="application/json")
+
+        
+
+
 
 
 

@@ -54,14 +54,15 @@ def update_data():
 
     }
     json_data = json.dumps(data)
-    r = requests.post(url=URL, data=json_data)
+    r = requests.put(url=URL, data=json_data)
     data = r.json
     print(data)
 def delete_data():
     URL = 'http://127.0.0.1:8080/datacreate/'
     data = {'id': 2}# for deletion just mention the id in  data field
     json_data = json.dumps(data)
-    r = requests.post(url=URL, data=json_data)
+    r = requests.delete(url=URL, data=json_data)
     data = r.json
     print(data)
+
 
