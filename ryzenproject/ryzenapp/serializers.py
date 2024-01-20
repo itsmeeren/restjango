@@ -27,7 +27,15 @@ class DataSerializer(serializers.Serializer):
         instance.roll_number = validated_data.get('roll_number', instance.roll_number)
         instance.save()
         return instance
-    def __delete__(self, instance):
+
+    #Fieldlevel validation
+
+
+    #_> This validation is for only roll_number field can add as required
+    def validate_roll_number(self,value):
+        if value>=200:
+            raise serializers.ValidationError("full")
+        return value
 
 
 

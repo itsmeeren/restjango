@@ -14,3 +14,17 @@ json_data=json.dumps(data)
 r=requests.post(url=URL,data=json_data)
 data=r.json
 print(data)
+
+validated field can only return the validated data or the serialixation.validation,error
+
+in field level validation we can set the defualt value for the fileds if the user sends the data greater than
+the defualt value it raises the validation error
+
+for example
+class StudentSerializer():
+roll=serializer.Intfield()
+
+    def validate_roll(self,value):
+        if value>=200:
+            raise serializer.validationerror("full")
+        return value
