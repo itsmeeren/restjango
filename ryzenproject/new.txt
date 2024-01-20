@@ -28,3 +28,11 @@ roll=serializer.Intfield()
         if value>=200:
             raise serializer.validationerror("full")
         return value
+we want to check the data of all the fields of the model we can use thid
+
+    def validate(self,data):
+        nm=data.get("first_name")
+        rn=data.get("roll_number")
+
+        we can add any logic to these variables and raise error
+    return data

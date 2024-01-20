@@ -35,7 +35,23 @@ class DataSerializer(serializers.Serializer):
     def validate_roll_number(self,value):
         if value>=200:
             raise serializers.ValidationError("full")
-        return value
+        return
+    # -> object level validation
+    def validate(self, data):
+        nm = data.get("first_name")
+        rn = data.get("roll_number")
+        # we can add any logic to these variables and raise error
+        return data
+
+
+
+
+
+
+
+
+
+
 
 
 
