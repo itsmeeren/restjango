@@ -5,12 +5,22 @@ from rest_framework import serializers
 from .models import Data
 
 
-# class DataSerializers(serializers.ModelSerializer):
-#     class Meta:
-#         model=Data
-#         fields='__all__'
-#     def create(self, validated_data):
-#         return Data.objects.create(**validated_data)
+class DataSerializers(serializers.ModelSerializer):
+    class Meta:
+        model=Data
+        fields='__all__'
+    def create(self, validated_data):
+        return Data.objects.create(**validated_data)
+# in built create and  update function in the django is below
+# few imports have to be done ,generics has to be imported
+from rest_framework import generics
+from .models import YourModel
+from .serializers import YourModelSerializer
+
+class YourModelListCreateView(generics.ListCreateAPIView):
+    queryset = YourModel.objects.all()
+    serializer_class = YourModelSerializer
+
 
 
 

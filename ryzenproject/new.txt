@@ -36,3 +36,15 @@ we want to check the data of all the fields of the model we can use thid
 
         we can add any logic to these variables and raise error
     return data
+
+we can make use of validators inside the serializers before defining the function
+like
+def starts_with(value):
+    if value[].lower==value[3] :
+    raise x error
+
+class StudentSerializer():
+    name=serializer.Charfield(max_length=10,validators=[starts_with]
+model serializer creates serializer for all the fields inside the model
+its a shortcut for creating serializer for all the fields inside the model
+
