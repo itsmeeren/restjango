@@ -48,3 +48,20 @@ class StudentSerializer():
 model serializer creates serializer for all the fields inside the model
 its a shortcut for creating serializer for all the fields inside the model
 
+-> learn modelform
+-> learn usercreation form and userauthuntication form
+
+-> instead of writing all the crud operations in the serializer python file ut you have to have the same format for the
+   views
+->if any of the field dont have to be changed then you can add read_only=TRUE in paranthesis of that field
+    ex: class Xserializer():
+            name=serializer.Charfield(max_length=100,read_only=TRUE)
+
+
+
+request.data will recieve all the data(parsed) from the  html format ,it can recieve all the files from the
+
+
+
+
+
