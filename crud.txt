@@ -83,3 +83,4 @@ def give_data(request):
 follow this method and write a view for this function to add the data from the user to the existing  data base
 
 for updating the database we have to include update function in the serializer
+
